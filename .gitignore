@@ -5,6 +5,7 @@
 /designs
 /.pnp
 /index.html
+/src/config.js
 .pnp.js
 
 # testing
