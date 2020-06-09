@@ -5,7 +5,7 @@ Top level application component
 import React, { Component } from "react"
 import Search from "./Search"
 import SearchNav from "./SearchNav"
-import NotFound from './NotFound'
+import NotFound from "./NotFound"
 
 export default class App extends Component {
   constructor(props) {
