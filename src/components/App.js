@@ -15,8 +15,10 @@ import axios from "axios"
 export default class App extends Component {
   constructor(props) {
     super(props)
-    this.photos = null
-    this.loading = true
+    this.state = {
+      photos = null,
+      loading: true
+    }
   }
 
   /**
