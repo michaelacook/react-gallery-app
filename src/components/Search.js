@@ -17,7 +17,7 @@ export default class Search extends Component {
   handleSubmit = (e) => {
     e.preventDefault()
     this.props.history.push(`/search/${this.state.query}`)
-    this.setState({ query: null })
+    this.setState({ query: "" })
   }
 
   render() {
