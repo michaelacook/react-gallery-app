@@ -93,6 +93,29 @@ input {
   width: 100%;
 }
 
+.pagination-nav {
+  margin: 30px 0 30px 0;
+  max-width: 100%;
+}
+
+.pagination-button {
+  font-size: 1rem;
+  width: 10px;
+  background-color: #438bbd;
+  color: white;
+  padding: 8px;
+  margin-right: 8px;
+  border-radius: 10%;
+}
+
+.pagination-button:last-child {
+  margin-right: none;
+}
+
+.pagination-button:hover {
+  background-color: #27526f;
+}
+
 @media only screen and (max-width: 767px) {
   body {
     padding-top: 2em;

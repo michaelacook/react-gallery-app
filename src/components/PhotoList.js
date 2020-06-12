@@ -1,9 +1,11 @@
 import React, { Component } from "react"
 import Photo from "./Photo"
+import Pagination from "./Pagination"
 
 export default class PhotoList extends Component {
   state = {
     query: null,
+    page: null,
   }
 
   /**
@@ -12,27 +14,45 @@ export default class PhotoList extends Component {
    */
   updateQuery = () => {
     this.setState({ query: this.props.match.params.query }, () => {
-      this.props.search(this.state.query)
+      this.props.search(this.state.query, this.state.page)
     })
   }
 
   /**
-   * When the component mounts after redirect, call updateQuery
-   * App will then get photos and pass them down via props
+   * Update the page for pagination purposes
+   * After page is updated, update query
+   * Done in this order so that when search is called, it is
+   * always passing the current page
    */
-  componentDidMount() {
-    this.updateQuery()
+  updatePage = () => {
+    this.setState({ page: this.props.match.params.page }, () => {
+      this.updateQuery()
+    })
   }
 
   /**
-   * If the query parameter changes, call updateQuery
+   * When the component mounts after redirect, call updatePage
+   * Update page will first update the current page, then
+   * update the query, then call search with both query and page
+   * App photos state will the be updated and pass the photos down
+   * via props
+   */
+  componentDidMount() {
+    this.updatePage()
+  }
+
+  /**
+   * If the query or page parameters change, call updatePage
    * This is needed because otherwise, updateQuery will keep
-   * using the previous query parameter and the photos won't
+   * using the previous query and page parameters and the photos won't
    * change with the URL
    */
   componentDidUpdate() {
-    if (this.props.match.params.query !== this.state.query) {
-      this.updateQuery()
+    if (
+      this.props.match.params.query !== this.state.query ||
+      this.props.match.params.page !== this.state.page
+    ) {
+      this.updatePage()
     }
   }
 
@@ -47,6 +67,7 @@ export default class PhotoList extends Component {
     return (
       <div className="photo-container">
         {this.props.loading ? <h3>Loading...</h3> : <ul>{photos}</ul>}
+        <Pagination pages={this.props.pages} match={this.props.match} />
       </div>
     )
   }

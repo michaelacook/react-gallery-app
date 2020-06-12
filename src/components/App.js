@@ -12,6 +12,7 @@ import Search from "./Search"
 import SearchNav from "./SearchNav"
 import PhotoList from "./PhotoList"
 import NotFound from "./NotFound"
+import Pagination from "./Pagination"
 import apiKey from "../config.js"
 
 export default class App extends Component {
@@ -19,8 +20,8 @@ export default class App extends Component {
     super(props)
     this.state = {
       loading: true,
-      query: "",
       photos: [],
+      pages: null,
     }
     this.baseURL = `https://www.flickr.com/services/rest/?method=flickr.photos.search&nojsoncallback=1&format=json&per_page=24&api_key=${apiKey}`
   }
@@ -28,33 +29,25 @@ export default class App extends Component {
   /**
    * Seach for photos matching a search term or set of search terms
    * @param {String} query - search term
-   * @param {Number} page - results page
-   * In the future, the page parameter may be used for pagination purposes
+   * @param {Number} page - results page. Defaults to page 1
    */
   search = (query, page = 1) => {
-    console.log("hello")
     const url = `${this.baseURL}&tags=${query}&page=${page}`
-    console.log(url)
     this.setState({ loading: true }, () => {
       axios
         .get(url)
-        .then(
-          ({
-            data: {
-              photos: { photo },
-            },
-          }) => {
-            this.setState({
-              loading: false,
-              photos: photo.map((image) => {
-                return {
-                  src: `https://farm${image.farm}.staticflickr.com/${image.server}/${image.id}_${image.secret}_b.jpg`,
-                  id: image.id,
-                }
-              }),
-            })
-          }
-        )
+        .then(({ data: { photos } }) => {
+          this.setState({
+            loading: false,
+            photos: photos.photo.map((image) => {
+              return {
+                src: `https://farm${image.farm}.staticflickr.com/${image.server}/${image.id}_${image.secret}_b.jpg`,
+                id: image.id,
+              }
+            }),
+            pages: photos.pages,
+          })
+        })
         .catch((err) => console.log(err.message))
     })
   }
@@ -92,11 +85,13 @@ export default class App extends Component {
             <Route
               exact
               path="/"
-              render={() => <Redirect to={`/search/${this.initialQuery()}`} />}
+              render={() => (
+                <Redirect to={`/search/${this.initialQuery()}/1`} />
+              )}
             />
             <Route
               exact
-              path="/search/:query"
+              path="/search/:query/:page"
               render={({ match }) => (
                 <PhotoList
                   query={this.state.query}
@@ -104,6 +99,7 @@ export default class App extends Component {
                   search={this.search}
                   images={this.state.photos}
                   loading={this.state.loading}
+                  pages={this.state.pages}
                 />
               )}
             />
