@@ -1,14 +1,37 @@
 import React, { Component } from "react"
+import { withRouter } from "react-router-dom"
 
 export default class Search extends Component {
   constructor(props) {
     super(props)
+    this.input = React.createRef()
+    this.state = {
+      query: "",
+    }
+  }
+
+  handleInputChange = (e) => {
+    this.setState({ query: e.target.value })
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault()
+    this.props.onSearch(this.state.query)
+    this.props.history.push("/search")
+    this.setState({ query: "" })
   }
 
   render() {
     return (
-      <form className="search-form">
-        <input type="search" name="search" placeholder="Search" required />
+      <form className="search-form" onSubmit={this.handleSubmit}>
+        <input
+          value={this.state.query}
+          onChange={this.handleInputChange}
+          type="search"
+          name="search"
+          placeholder="Search"
+          required
+        />
         <button type="submit" className="search-button">
           <svg
             fill="#fff"
