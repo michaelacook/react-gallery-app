@@ -58,10 +58,10 @@ export default class PhotoList extends Component {
   }
 
   /**
-   * If API is done fetching and there are no results, return the 
+   * If API is done fetching and there are no results, return the
    * NoResults component
    * Otherwise if API is not done fetching display a loading message
-   * Display photos 
+   * Display photos
    * if more than one page of results display Pagination
    */
   render() {
