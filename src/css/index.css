@@ -89,8 +89,12 @@ input {
   transform: scale(1.65);
 }
 
-.photo-container .not-found {
+.photo-container .not-found .no-results {
   width: 100%;
+}
+
+.no-results {
+  text-align: center;
 }
 
 .pagination-nav {

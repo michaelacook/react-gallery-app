@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import Photo from "./Photo"
 import Pagination from "./Pagination"
+import NoResults from "./NoResults"
 
 export default class PhotoList extends Component {
   state = {
@@ -56,6 +57,13 @@ export default class PhotoList extends Component {
     }
   }
 
+  /**
+   * If API is done fetching and there are no results, return the 
+   * NoResults component
+   * Otherwise if API is not done fetching display a loading message
+   * Display photos 
+   * if more than one page of results display Pagination
+   */
   render() {
     const photos = this.props.images.map((image) => {
       return (
@@ -64,6 +72,9 @@ export default class PhotoList extends Component {
         </li>
       )
     })
+    if (photos.length < 1 && !this.props.loading) {
+      return <NoResults />
+    }
     return (
       <div className="photo-container">
         {this.props.loading ? <h3>Loading...</h3> : <ul>{photos}</ul>}

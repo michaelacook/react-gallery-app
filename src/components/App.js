@@ -94,7 +94,7 @@ export default class App extends Component {
               path="/search/:query/:page"
               render={({ match }) => (
                 <PhotoList
-                  query={this.state.query}
+                  // query={this.state.query}
                   match={match}
                   search={this.search}
                   images={this.state.photos}
