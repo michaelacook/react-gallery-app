@@ -67,7 +67,7 @@ export default class App extends Component {
               <Search onSearch={this.search} history={props.history} />
             )}
           />
-          <SearchNav />
+          <SearchNav search={this.search} />
           <Switch>
             <Redirect exact to="/search" from="/" />
             <Route
