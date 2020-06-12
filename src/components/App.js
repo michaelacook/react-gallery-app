@@ -39,12 +39,16 @@ export default class App extends Component {
               photos: { photo },
             },
           }) => {
-            console.log(url)
+            console.log(photo)
             this.setState({
               loading: false,
               photos: photo.map(
-                (image) =>
-                  `https://farm${image.farm}.staticflickr.com/${image.server}/${image.id}_${image.secret}_b.jpg`
+                (image) => {
+                  return {
+                    src: `https://farm${image.farm}.staticflickr.com/${image.server}/${image.id}_${image.secret}_b.jpg`,
+                    id: image.id
+                  } 
+                }
               ),
             })
           }
@@ -71,6 +75,7 @@ export default class App extends Component {
           <Switch>
             <Redirect exact to="/search" from="/" />
             <Route
+              exact
               path="/search"
               render={() => (
                 <PhotoList

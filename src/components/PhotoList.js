@@ -4,8 +4,8 @@ import Photo from "./Photo"
 const PhotoList = ({ images, loading }) => {
   const photos = images.map((image) => {
     return (
-      <li>
-        <Photo src={image} alt="Photo pulled from the Flickr API" />
+      <li key={image.id}>
+        <Photo src={image.src} alt="Photo pulled from the Flickr API" />
       </li>
     )
   })
