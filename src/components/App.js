@@ -19,17 +19,22 @@ export default class App extends Component {
     super(props)
     this.state = {
       loading: true,
+      query: "",
       photos: [],
     }
+    this.baseURL = `https://www.flickr.com/services/rest/?method=flickr.photos.search&nojsoncallback=1&format=json&per_page=24&api_key=${apiKey}`
   }
 
   /**
    * Seach for photos matching a search term or set of search terms
+   * @param {String} query - search term
+   * @param {Number} page - results page
+   * In the future, the page parameter may be used for pagination purposes
    */
   search = (query, page = 1) => {
-    const baseURL = "https://www.flickr.com/services/rest/"
-    const method = "flickr.photos.search"
-    const url = `${baseURL}?method=${method}&tags=${query}&api_key=${apiKey}&per_page=24&nojsoncallback=1&format=json&page=${page}`
+    console.log("hello")
+    const url = `${this.baseURL}&tags=${query}&page=${page}`
+    console.log(url)
     this.setState({ loading: true }, () => {
       axios
         .get(url)
@@ -39,22 +44,39 @@ export default class App extends Component {
               photos: { photo },
             },
           }) => {
-            console.log(photo)
             this.setState({
               loading: false,
-              photos: photo.map(
-                (image) => {
-                  return {
-                    src: `https://farm${image.farm}.staticflickr.com/${image.server}/${image.id}_${image.secret}_b.jpg`,
-                    id: image.id
-                  } 
+              photos: photo.map((image) => {
+                return {
+                  src: `https://farm${image.farm}.staticflickr.com/${image.server}/${image.id}_${image.secret}_b.jpg`,
+                  id: image.id,
                 }
-              ),
+              }),
             })
           }
         )
         .catch((err) => console.log(err.message))
     })
+  }
+
+  /**
+   * Return a random keyword
+   * Used to generate the home page images
+   * Each time the user navigates to the home path,
+   * a random keyword will be used in the redirect
+   * In the future this will not be hardcoded but
+   * will pull in trending photos
+   */
+  initialQuery = () => {
+    return [
+      "animals",
+      "plants",
+      "beautiful",
+      "historic",
+      "trees",
+      "scenic",
+      "birds",
+    ][Math.floor(Math.random() * 7)]
   }
 
   render() {
@@ -63,18 +85,22 @@ export default class App extends Component {
         <div className="container">
           <Route
             path="/"
-            render={(props) => (
-              <Search onSearch={this.search} history={props.history} />
-            )}
+            render={(props) => <Search history={props.history} />}
           />
-          <SearchNav search={this.search} />
+          <SearchNav />
           <Switch>
-            <Redirect exact to="/search/monkeys" from="/" />
+            <Route
+              exact
+              path="/"
+              render={() => <Redirect to={`/search/${this.initialQuery()}`} />}
+            />
             <Route
               exact
               path="/search/:query"
-              render={() => (
+              render={({ match }) => (
                 <PhotoList
+                  query={this.state.query}
+                  match={match}
                   search={this.search}
                   images={this.state.photos}
                   loading={this.state.loading}

@@ -6,19 +6,13 @@ const SearchNav = (props) => {
     <nav className="main-nav">
       <ul>
         <li>
-          <NavLink to="/search/cats">
-            Cats
-          </NavLink>
+          <NavLink to="/search/flowers">Flowers</NavLink>
         </li>
         <li>
-          <NavLink to="/search/mountains">
-            Mountains
-          </NavLink>
+          <NavLink to="/search/mountains">Mountains</NavLink>
         </li>
         <li>
-          <NavLink to="/search/cities">
-            Cities
-          </NavLink>
+          <NavLink to="/search/cities">Cities</NavLink>
         </li>
       </ul>
     </nav>

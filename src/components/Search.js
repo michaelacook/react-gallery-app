@@ -11,18 +11,20 @@ export default class Search extends Component {
   }
 
   handleInputChange = (e) => {
-    this.setState({ query: e.target.value })
+    this.setState({ query: this.input.current.value })
   }
 
   handleSubmit = (e) => {
+    e.preventDefault()
     this.props.history.push(`/search/${this.state.query}`)
-    this.setState({ query: "" })
+    this.setState({ query: null })
   }
 
   render() {
     return (
       <form className="search-form" onSubmit={this.handleSubmit}>
         <input
+          ref={this.input}
           value={this.state.query}
           onChange={this.handleInputChange}
           type="search"
