@@ -12,7 +12,6 @@ import Search from "./Search"
 import SearchNav from "./SearchNav"
 import PhotoList from "./PhotoList"
 import NotFound from "./NotFound"
-import Pagination from "./Pagination"
 import apiKey from "../config.js"
 
 export default class App extends Component {
