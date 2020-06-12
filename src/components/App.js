@@ -57,10 +57,6 @@ export default class App extends Component {
     })
   }
 
-  componentDidMount() {
-    this.search("monkeys")
-  }
-
   render() {
     return (
       <BrowserRouter>
@@ -73,12 +69,13 @@ export default class App extends Component {
           />
           <SearchNav search={this.search} />
           <Switch>
-            <Redirect exact to="/search" from="/" />
+            <Redirect exact to="/search/monkeys" from="/" />
             <Route
               exact
-              path="/search"
+              path="/search/:query"
               render={() => (
                 <PhotoList
+                  search={this.search}
                   images={this.state.photos}
                   loading={this.state.loading}
                 />

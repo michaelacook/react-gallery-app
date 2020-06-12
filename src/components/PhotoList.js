@@ -1,7 +1,13 @@
 import React from "react"
 import Photo from "./Photo"
+import { useParams } from 'react-router-dom'
 
-const PhotoList = ({ images, loading }) => {
+const PhotoList = ({ images, search, loading }) => {
+
+  const { query } = useParams()
+
+  search(query);
+
   const photos = images.map((image) => {
     return (
       <li key={image.id}>
