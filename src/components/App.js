@@ -1,8 +1,6 @@
 /*
-Top level application component
 Flickr API docs <https://www.flickr.com/services/api/>
 <https://www.flickr.com/services/api/flickr.photos.search.html>
-tut: <https://www.w3resource.com/API/flickr/tutorial.php>
 */
 
 import React, { Component } from "react"
@@ -13,6 +11,7 @@ import SearchNav from "./SearchNav"
 import PhotoList from "./PhotoList"
 import NotFound from "./NotFound"
 
+const apiKey = process.env.REACT_APP_API_KEY
 
 export default class App extends Component {
   constructor(props) {
@@ -22,7 +21,7 @@ export default class App extends Component {
       photos: [],
       pages: null,
     }
-    this.baseURL = `https://www.flickr.com/services/rest/?method=flickr.photos.search&nojsoncallback=1&format=json&per_page=24&api_key=${process.env.REACT_APP_API_KEY}`
+    this.baseURL = `https://www.flickr.com/services/rest/?method=flickr.photos.search&nojsoncallback=1&format=json&per_page=24&api_key=${apiKey}`
   }
 
   /**
