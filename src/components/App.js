@@ -12,7 +12,7 @@ import Search from "./Search"
 import SearchNav from "./SearchNav"
 import PhotoList from "./PhotoList"
 import NotFound from "./NotFound"
-import apiKey from "../config.js"
+
 
 export default class App extends Component {
   constructor(props) {
@@ -22,7 +22,7 @@ export default class App extends Component {
       photos: [],
       pages: null,
     }
-    this.baseURL = `https://www.flickr.com/services/rest/?method=flickr.photos.search&nojsoncallback=1&format=json&per_page=24&api_key=${apiKey}`
+    this.baseURL = `https://www.flickr.com/services/rest/?method=flickr.photos.search&nojsoncallback=1&format=json&per_page=24&api_key=${process.env.REACT_APP_API_KEY}`
   }
 
   /**
@@ -93,7 +93,6 @@ export default class App extends Component {
               path="/search/:query/:page"
               render={({ match }) => (
                 <PhotoList
-                  // query={this.state.query}
                   match={match}
                   search={this.search}
                   images={this.state.photos}
