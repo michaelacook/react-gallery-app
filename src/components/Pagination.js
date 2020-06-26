@@ -10,8 +10,7 @@ to display, because more than 25 pagination NavLinks does not display well on
 the page
 */
 
-const Pagination = (props) => {
-  const { pages, match } = props
+const Pagination = ({ pages, match }) => {
   let max
   if (pages < 2) {
     return null
